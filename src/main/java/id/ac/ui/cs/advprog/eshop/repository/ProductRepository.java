@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Repository
 public class ProductRepository {
@@ -18,5 +19,25 @@ public class ProductRepository {
 
     public Iterator<Product> findAll() {
         return productData.iterator();
+    }
+
+    public Product findById(String productId) {
+        for (Product product : productData) {
+            if (product.getProductId().equals(productId)) {
+                return product;
+            }
+        }
+        return null; // Return null if the product is not found
+    }
+
+    public Product update(String productId, Product updatedProduct) {
+        Product productToUpdate = findById(productId);
+        if (productToUpdate != null) {
+            productToUpdate.setProductName(updatedProduct.getProductName());
+            productToUpdate.setProductQuantity(updatedProduct.getProductQuantity());
+            return productToUpdate;
+        } else {
+            throw new NoSuchElementException("Product with ID " + productId + " not found");
+        }
     }
 }
