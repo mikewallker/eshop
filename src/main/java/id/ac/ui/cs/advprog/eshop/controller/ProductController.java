@@ -36,11 +36,10 @@ public class ProductController {
         return "productList";
     }
 
-    // Handle the delete request for a specific product
     @GetMapping("/delete/{productId}")
     public String deleteProduct(@PathVariable String productId) {
         service.deleteById(productId);
-        return "redirect:/product/list"; // Redirect to the product list page after deletion
+        return "redirect:/product/list";
     }
 
 }
