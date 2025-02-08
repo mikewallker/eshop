@@ -42,4 +42,32 @@ public class ProductController {
         return "redirect:/product/list";
     }
 
+    // Display the edit form for a specific product
+    @GetMapping("/edit/{productId}")
+    public String editProductForm(@PathVariable String productId, Model model) {
+        Product product = service.findById(productId);
+        if (product != null) {
+            model.addAttribute("product", product);
+            return "editProduct"; // Return the edit-product.html template
+        } else {
+            return "error"; // Return an error page if the product is not found
+        }
+    }
+
+    // Handle the form submission to update the product
+    @PostMapping("/update")
+    public String updateProduct(@RequestParam String productId,
+                                @RequestParam String productName,
+                                @RequestParam int productQuantity) {
+        Product updatedProduct = new Product();
+        updatedProduct.setProductId(productId);
+        updatedProduct.setProductName(productName);
+        updatedProduct.setProductQuantity(productQuantity);
+
+        service.update(productId, updatedProduct);
+        return "redirect:/product/list"; // Redirect to the product list page
+    }
+
+
+
 }
