@@ -36,6 +36,12 @@ public class ProductController {
         return "productList";
     }
 
+    @GetMapping("/delete/{productId}")
+    public String deleteProduct(@PathVariable String productId) {
+        service.deleteById(productId);
+        return "redirect:/product/list";
+    }
+
     // Display the edit form for a specific product
     @GetMapping("/edit/{productId}")
     public String editProductForm(@PathVariable String productId, Model model) {
@@ -61,6 +67,7 @@ public class ProductController {
         service.update(productId, updatedProduct);
         return "redirect:/product/list"; // Redirect to the product list page
     }
+
 
 
 }
