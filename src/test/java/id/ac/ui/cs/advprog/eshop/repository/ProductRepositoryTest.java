@@ -9,8 +9,11 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class ProductRepositoryTest {
@@ -68,4 +71,54 @@ class ProductRepositoryTest {
 
         assertFalse(productIterator.hasNext());
     }
+
+    @Test
+    void testUpdateProduct() {
+        // Arrange: Create and store a sample product
+        Product sampleProduct = new Product();
+        sampleProduct.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        sampleProduct.setProductName("Sampo Cap Bambang");
+        sampleProduct.setProductQuantity(100);
+        productRepository.create(sampleProduct); // Store in the repository
+
+        // positive scenario, create updated product details
+        Product updatedProduct = new Product();
+        updatedProduct.setProductName("Sampo Cap Anton");
+        updatedProduct.setProductQuantity(50);
+
+        Product result = productRepository.update("eb558e9f-1c39-460e-8860-71af6af63bd6", updatedProduct);
+
+        assertNotNull(result);
+        assertEquals("Sampo Cap Anton", result.getProductName());
+        assertEquals(50, result.getProductQuantity());
+
+        // negative scenario
+        Product nonExistentUpdate = new Product();
+
+        Exception exception = assertThrows(NoSuchElementException.class, () -> {
+            productRepository.update("non-existent-id", nonExistentUpdate);
+        });
+
+        assertEquals("Product with ID non-existent-id not found", exception.getMessage());
+    }
+
+    @Test
+    void testDeleteById() {
+        // Arrange: Create and store a sample product
+        Product sampleProduct = new Product();
+        sampleProduct.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        sampleProduct.setProductName("Sampo Cap Bambang");
+        sampleProduct.setProductQuantity(100);
+        productRepository.create(sampleProduct); // Store in the repository
+
+        //positive scenario
+        productRepository.deleteById("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        assertNull(productRepository.findById("eb558e9f-1c39-460e-8860-71af6af63bd6"));
+
+        //negative scenario
+        assertThrows(NoSuchElementException.class, () -> {
+            productRepository.deleteById("non-existent-id");
+        });
+    }
+
 }

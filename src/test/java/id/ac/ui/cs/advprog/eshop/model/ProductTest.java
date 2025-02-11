@@ -1,13 +1,24 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
 import id.ac.ui.cs.advprog.eshop.model.Product;
+import id.ac.ui.cs.advprog.eshop.repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import id.ac.ui.cs.advprog.eshop.service.ProductService;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.*;
 
 class ProductTest {
     Product product;
+
+    @Mock
+    private ProductRepository productRepository;  // Mock repository
+
+    @InjectMocks
+    private ProductService service;  // Injects mocks into service
 
     @BeforeEach
     void setUp() {
@@ -31,4 +42,6 @@ class ProductTest {
     void testGetProductQuantity() {
         assertEquals(100, this.product.getProductQuantity());
     }
+
+
 }

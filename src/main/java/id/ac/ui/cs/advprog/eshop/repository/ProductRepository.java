@@ -22,8 +22,13 @@ public class ProductRepository {
     }
 
     public void deleteById(String productId) {
-        productData.removeIf(product -> product.getProductId().equals(productId));
+        boolean removed = productData.removeIf(product -> product.getProductId().equals(productId));
+
+        if (!removed) {
+            throw new NoSuchElementException("Product with ID " + productId + " not found");
+        }
     }
+
 
     public Product findById(String productId) {
         for (Product product : productData) {
