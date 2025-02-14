@@ -7,6 +7,12 @@
 </head>
 <body>
 <h1>Edit Product</h1>
+
+<!-- Display error message if present -->
+<div th:if="${errorMessage}" style="color: red;">
+    <p th:text="${errorMessage}"></p>
+</div>
+
 <form action="/product/update" method="post">
     <input type="hidden" name="productId" th:value="${product.productId}">
 

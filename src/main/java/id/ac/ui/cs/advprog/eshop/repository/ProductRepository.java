@@ -22,8 +22,13 @@ public class ProductRepository {
     }
 
     public void deleteById(String productId) {
-        productData.removeIf(product -> product.getProductId().equals(productId));
+        boolean removed = productData.removeIf(product -> product.getProductId().equals(productId));
+
+        if (!removed) {
+            throw new NoSuchElementException("Product with ID " + productId + " not found");
+        }
     }
+
 
     public Product findById(String productId) {
         for (Product product : productData) {
@@ -37,6 +42,9 @@ public class ProductRepository {
     public Product update(String productId, Product updatedProduct) {
         Product productToUpdate = findById(productId);
         if (productToUpdate != null) {
+            if (updatedProduct.getProductQuantity() <= 0) {
+                throw new IllegalArgumentException("Product quantity must be greater than 0");
+            }
             productToUpdate.setProductName(updatedProduct.getProductName());
             productToUpdate.setProductQuantity(updatedProduct.getProductQuantity());
             return productToUpdate;
