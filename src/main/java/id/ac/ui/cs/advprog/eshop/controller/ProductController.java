@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("/product")
@@ -58,14 +59,25 @@ public class ProductController {
     @PostMapping("/update")
     public String updateProduct(@RequestParam String productId,
                                 @RequestParam String productName,
-                                @RequestParam int productQuantity) {
-        Product updatedProduct = new Product();
-        updatedProduct.setProductId(productId);
-        updatedProduct.setProductName(productName);
-        updatedProduct.setProductQuantity(productQuantity);
+                                @RequestParam int productQuantity,
+                                @ModelAttribute Product currentProduct,
+                                Model model) {
+        try {
+            Product updatedProduct = new Product();
+            updatedProduct.setProductId(productId);
+            updatedProduct.setProductName(productName);
+            updatedProduct.setProductQuantity(productQuantity);
 
-        service.update(productId, updatedProduct);
-        return "redirect:/product/list"; // Redirect to the product list page
+            service.update(productId, updatedProduct);
+            return "redirect:/product/list"; // Redirect to the product list page
+        } catch(IllegalArgumentException e){
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("product", currentProduct); // Preserve entered data
+            return "editProduct";
+        } catch (NoSuchElementException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "editProduct";
+        }
     }
 
 

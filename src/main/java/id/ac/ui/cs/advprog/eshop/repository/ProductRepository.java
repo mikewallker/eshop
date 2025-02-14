@@ -42,6 +42,9 @@ public class ProductRepository {
     public Product update(String productId, Product updatedProduct) {
         Product productToUpdate = findById(productId);
         if (productToUpdate != null) {
+            if (updatedProduct.getProductQuantity() <= 0) {
+                throw new IllegalArgumentException("Product quantity must be greater than 0");
+            }
             productToUpdate.setProductName(updatedProduct.getProductName());
             productToUpdate.setProductQuantity(updatedProduct.getProductQuantity());
             return productToUpdate;

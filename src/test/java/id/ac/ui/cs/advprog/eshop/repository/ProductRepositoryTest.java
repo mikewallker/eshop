@@ -92,7 +92,7 @@ class ProductRepositoryTest {
         assertEquals("Sampo Cap Anton", result.getProductName());
         assertEquals(50, result.getProductQuantity());
 
-        // negative scenario
+        // nonexistent id
         Product nonExistentUpdate = new Product();
 
         Exception exception = assertThrows(NoSuchElementException.class, () -> {
@@ -100,6 +100,23 @@ class ProductRepositoryTest {
         });
 
         assertEquals("Product with ID non-existent-id not found", exception.getMessage());
+
+        // Quantity == 0
+        Product invalidQuantityUpdate = new Product();
+        invalidQuantityUpdate.setProductName("Sampo Cap Error");
+        invalidQuantityUpdate.setProductQuantity(0);
+
+        Exception quantityException = assertThrows(IllegalArgumentException.class, () -> {
+            productRepository.update("eb558e9f-1c39-460e-8860-71af6af63bd6", invalidQuantityUpdate);
+        });
+        assertEquals("Product quantity must be greater than 0", quantityException.getMessage());
+
+        // Test with negative quantity
+        invalidQuantityUpdate.setProductQuantity(-10);
+        Exception negativeQuantityException = assertThrows(IllegalArgumentException.class, () -> {
+            productRepository.update("eb558e9f-1c39-460e-8860-71af6af63bd6", invalidQuantityUpdate);
+        });
+        assertEquals("Product quantity must be greater than 0", negativeQuantityException.getMessage());
     }
 
     @Test
