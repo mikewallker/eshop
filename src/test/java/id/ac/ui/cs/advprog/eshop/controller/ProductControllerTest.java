@@ -94,7 +94,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void testEditProductForm_Success() throws Exception {
+    void testEditProductFormSuccess() throws Exception {
         Product product = new Product();
         product.setProductId("1");
         product.setProductName("Test Product");
@@ -109,7 +109,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void testEditProductForm_NotFound() throws Exception {
+    void testEditProductFormNotFound() throws Exception {
         when(productService.findById("1")).thenReturn(null);
 
         mockMvc.perform(get("/product/edit/1"))
@@ -118,7 +118,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void testUpdateProduct_Success() throws Exception {
+    void testUpdateProductSuccess() throws Exception {
         mockMvc.perform(post("/product/update")
                         .param("productId", "1")
                         .param("productName", "Updated Product")
@@ -131,7 +131,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void testUpdateProduct_InvalidData() throws Exception {
+    void testUpdateProductInvalidData() throws Exception {
         doThrow(new IllegalArgumentException("Invalid Data"))
                 .when(productService).update(eq("1"), any(Product.class));
 
@@ -147,7 +147,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void testUpdateProduct_NotFound() throws Exception {
+    void testUpdateProductNotFound() throws Exception {
         doThrow(new NoSuchElementException("Product not found"))
                 .when(productService).update(eq("1"), any(Product.class));
 

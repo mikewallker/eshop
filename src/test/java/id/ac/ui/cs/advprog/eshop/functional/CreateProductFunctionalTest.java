@@ -34,7 +34,7 @@ public class CreateProductFunctionalTest {
     }
 
     @Test
-    void user_canCreateProduct_andSeeItInTheList(ChromeDriver driver) {
+    void userCanCreateProductAndSeeItInTheList(ChromeDriver driver) {
         // Navigate to the Product List page
         driver.get(baseUrl + "/product/list");
 

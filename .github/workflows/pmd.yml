@@ -8,6 +8,9 @@ jobs:
   pmd-analysis:
     name: Run PMD Code Analysis
     runs-on: ubuntu-22.04
+    permissions:
+      security-events: write
+      id-token: write
 
     steps:
       - uses: actions/checkout@v4
