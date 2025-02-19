@@ -10,6 +10,7 @@ class EshopApplicationTests {
 
     @Test
     void contextLoads() {
+        //ensure spring context properly setup
     }
 
     @Test
