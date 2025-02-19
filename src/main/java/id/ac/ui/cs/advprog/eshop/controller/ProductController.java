@@ -21,7 +21,7 @@ public class ProductController {
     public String createProductPage(Model model) {
         Product product = new Product();
         model.addAttribute("product", product);
-        return "createProduct";
+        return "CreateProduct";
     }
 
     @PostMapping("/create")
@@ -34,7 +34,7 @@ public class ProductController {
     public String productListPage(Model model) {
         List<Product> allProducts = service.findAll();
         model.addAttribute("products", allProducts);
-        return "productList";
+        return "ProductList";
     }
 
     @GetMapping("/delete/{productId}")
@@ -49,7 +49,7 @@ public class ProductController {
         Product product = service.findById(productId);
         if (product != null) {
             model.addAttribute("product", product);
-            return "editProduct"; // Return the edit-product.html template
+            return "EditProduct"; // Return the edit-product.html template
         } else {
             return "error"; // Return an error page if the product is not found
         }
@@ -73,10 +73,10 @@ public class ProductController {
         } catch(IllegalArgumentException e){
             model.addAttribute("errorMessage", e.getMessage());
             model.addAttribute("product", currentProduct); // Preserve entered data
-            return "editProduct";
+            return "EditProduct";
         } catch (NoSuchElementException e) {
             model.addAttribute("errorMessage", e.getMessage());
-            return "editProduct";
+            return "EditProduct";
         }
     }
 
