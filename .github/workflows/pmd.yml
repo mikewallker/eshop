@@ -23,7 +23,7 @@ jobs:
       - uses: pmd/pmd-github-action@v2
         with:
           version: '7.0.0-rc4'
-          rulesets: 'rulesets/java/quickstart.xml,ruleset.xml'
+          rulesets: 'rulesets/java/quickstart.xml'
           analyzeModifiedFilesOnly: false
           format: 'sarif' # Ensure PMD outputs SARIF format
           outputFile: 'pmd-report.sarif'
